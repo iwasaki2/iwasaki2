@@ -3,34 +3,15 @@ using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
 {
-    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    public override void OnServerConnect(NetworkConnectionToClient conn)
     {
-        if (conn == null)
-        {
-            Debug.LogWarning("OnServerDisconnect: conn is null, skipping.");
-            return;
-        }
-
-        if (conn.identity == null)
-        {
-            Debug.LogWarning("OnServerDisconnect: conn.identity is null, skipping destroy.");
-        }
-
-        base.OnServerDisconnect(conn);
+        base.OnServerConnect(conn);
+        Debug.Log($"クライアントが接続しました: ID = {conn.connectionId}");
     }
 
-    public override void OnStopHost()
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        Debug.Log("ホストを停止中...");
-
-        foreach (var conn in NetworkServer.connections.Values)
-        {
-            if (conn != null && conn.identity != null)
-            {
-                NetworkServer.Destroy(conn.identity.gameObject);
-            }
-        }
-
-        base.OnStopHost();
+        base.OnServerDisconnect(conn);
+        Debug.Log($"クライアントが切断しました: ID = {conn.connectionId}");
     }
 }

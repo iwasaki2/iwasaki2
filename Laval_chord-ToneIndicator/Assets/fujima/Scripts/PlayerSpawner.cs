@@ -3,27 +3,51 @@ using Mirror;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    // プレイヤーのプレハブをInspectorから設定
     public GameObject playerPrefab;  // プレイヤーのプレハブ
-    public Transform spawnPoint;     // プレイヤーのスポーン位置
+    public Transform spawnPoint;     // スポーン位置
 
-    // サーバー側でプレイヤーをスポーンするコマンド
+    void Start()
+    {
+        // クライアントがゲーム開始時にプレイヤーをスポーンする
+        if (isLocalPlayer)
+        {
+            RequestSpawnPlayer();
+        }
+    }
+
     [Command]
     public void CmdSpawnPlayer()
     {
-        // プレイヤーのプレハブをインスタンス化
-        GameObject playerObject = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        // `spawnPoint` が `null` ならデフォルト位置を使用
+        Vector3 spawnPosition = (spawnPoint != null) ? spawnPoint.position : Vector3.zero;
+        Quaternion spawnRotation = (spawnPoint != null) ? spawnPoint.rotation : Quaternion.identity;
 
-        // サーバーでスポーンさせる
+        // `playerPrefab` が `null` ならエラーを防ぐ
+        if (playerPrefab == null)
+        {
+            Debug.LogError("Player Prefab が設定されていません！");
+            return;
+        }
+
+        // プレイヤーのインスタンスを生成
+        GameObject playerObject = Instantiate(playerPrefab, spawnPosition, spawnRotation);
+
+        // `NetworkManager` の `Spawnable Prefabs` に登録されていることを確認
+        if (!NetworkClient.prefabs.ContainsValue(playerPrefab))
+        {
+            Debug.LogError("プレイヤープレハブが NetworkManager の Spawnable Prefabs に登録されていません！");
+            return;
+        }
+
+        // サーバーでプレイヤーをスポーン
         NetworkServer.Spawn(playerObject);
     }
 
-    // クライアントからスポーンをリクエストするために呼び出される
     public void RequestSpawnPlayer()
     {
         if (isLocalPlayer)
         {
-            CmdSpawnPlayer();  // クライアントからサーバーへプレイヤー生成リクエスト
+            CmdSpawnPlayer();
         }
     }
 }
