@@ -1,53 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerSpawner : NetworkBehaviour
+public class PlayerSpawner : NetworkManager
 {
-    public GameObject playerPrefab;  // プレイヤーのプレハブ
-    public Transform spawnPoint;     // スポーン位置
+    public Transform[] spawnPoints; // スポーンポイントの配列
 
-    void Start()
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        // クライアントがゲーム開始時にプレイヤーをスポーンする
-        if (isLocalPlayer)
+        if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            RequestSpawnPlayer();
-        }
-    }
-
-    [Command]
-    public void CmdSpawnPlayer()
-    {
-        // `spawnPoint` が `null` ならデフォルト位置を使用
-        Vector3 spawnPosition = (spawnPoint != null) ? spawnPoint.position : Vector3.zero;
-        Quaternion spawnRotation = (spawnPoint != null) ? spawnPoint.rotation : Quaternion.identity;
-
-        // `playerPrefab` が `null` ならエラーを防ぐ
-        if (playerPrefab == null)
-        {
-            Debug.LogError("Player Prefab が設定されていません！");
+            Debug.LogError("Error: spawnPoints is not assigned or empty. Please assign spawn points in the Inspector.");
             return;
         }
 
-        // プレイヤーのインスタンスを生成
-        GameObject playerObject = Instantiate(playerPrefab, spawnPosition, spawnRotation);
+        int index = conn.connectionId % spawnPoints.Length;
+        Vector3 spawnPosition = spawnPoints[index].position;
+        Quaternion spawnRotation = spawnPoints[index].rotation;
 
-        // `NetworkManager` の `Spawnable Prefabs` に登録されていることを確認
-        if (!NetworkClient.prefabs.ContainsValue(playerPrefab))
-        {
-            Debug.LogError("プレイヤープレハブが NetworkManager の Spawnable Prefabs に登録されていません！");
-            return;
-        }
-
-        // サーバーでプレイヤーをスポーン
-        NetworkServer.Spawn(playerObject);
-    }
-
-    public void RequestSpawnPlayer()
-    {
-        if (isLocalPlayer)
-        {
-            CmdSpawnPlayer();
-        }
+        // プレイヤーをスポーン（Rigidbodyは不要）
+        GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
+        NetworkServer.AddPlayerForConnection(conn, player);
     }
 }
