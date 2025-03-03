@@ -4,22 +4,42 @@ using Mirror;
 
 public class PlayerSpawner : NetworkManager
 {
-    public Transform[] spawnPoints; // スポーンポイントの配列
+    public Transform spawnPointHost;  // ホストのスポーン位置
+    public Transform spawnPointClient; // クライアントのスポーン位置
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
+        Transform spawnPoint;
+
+        // ホスト（最初のプレイヤー）は spawnPointHost にスポーン
+        if (numPlayers == 0)
         {
-            Debug.LogError("Error: spawnPoints is not assigned or empty. Please assign spawn points in the Inspector.");
-            return;
+            spawnPoint = spawnPointHost;
+        }
+        // クライアント（2人目以降）は spawnPointClient にスポーン
+        else
+        {
+            spawnPoint = spawnPointClient;
         }
 
-        int index = conn.connectionId % spawnPoints.Length;
-        Vector3 spawnPosition = spawnPoints[index].position;
-        Quaternion spawnRotation = spawnPoints[index].rotation;
+        Vector3 spawnPosition = spawnPoint.position;
+        Quaternion spawnRotation = spawnPoint.rotation;
 
-        // プレイヤーをスポーン（Rigidbodyは不要）
+        // プレイヤーをスポーン
         GameObject player = Instantiate(playerPrefab, spawnPosition, spawnRotation);
         NetworkServer.AddPlayerForConnection(conn, player);
+
+        // カメラの視点を設定
+        SetupCamera(player);
+    }
+
+    private void SetupCamera(GameObject player)
+    {
+        Camera playerCamera = player.GetComponentInChildren<Camera>();
+
+        if (playerCamera != null)
+        {
+            playerCamera.gameObject.SetActive(true);  // 自分のカメラのみ有効化
+        }
     }
 }
