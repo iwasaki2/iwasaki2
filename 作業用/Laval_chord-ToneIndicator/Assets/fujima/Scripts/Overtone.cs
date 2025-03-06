@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Mirror;
 
-public class Overtone : MonoBehaviour
+public class Overtone : NetworkBehaviour
 {
     private AudioSource audioSource; // AudioSource型の変数を宣言
     public float frequency = 1320f; // 出力する周波数
@@ -11,6 +12,10 @@ public class Overtone : MonoBehaviour
     public float threshold = 1000f; // 強度の閾値
 
     private bool isPlaying = false;
+    [SyncVar]
+    private bool toPlay = false;
+
+
     private bool isPlayingForFourSeconds = false; // 4秒間再生されたかどうかを記録するフラグ
     private float latestIntensity = 0f; // 最新の合計強度データ
     public Animator metarigAnimator;
@@ -52,9 +57,17 @@ public class Overtone : MonoBehaviour
             audioSource.Stop(); // 既存の音を止める
             //audioSource.Play();
         }
-        
-        if (latestIntensity > threshold)
+
+        if (isServer && latestIntensity > threshold)
         {
+            toPlay = true;
+        }
+        else
+        {
+            toPlay = false;
+        }
+        if (toPlay == true)
+        { 
             Debug.Log("get in");
             if (!isPlaying)
             {
