@@ -53,7 +53,7 @@ public class Overtone : MonoBehaviour
             //audioSource.Play();
         }
         
-        if (latestIntensity > threshold)
+        if (latestIntensity > threshold ||Keyboard.current.vKey.isPressed)
         {
             Debug.Log("get in");
             if (!isPlaying)
