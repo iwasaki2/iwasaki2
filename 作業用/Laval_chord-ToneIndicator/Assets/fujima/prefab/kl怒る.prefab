@@ -88,7 +88,10 @@ PrefabInstance:
       addedObject: {fileID: 8929206046079845992}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043b3b3794a31470db3646330215eb2a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2726971651387342232}
+      addedObject: {fileID: -6896513720657798168}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043b3b3794a31470db3646330215eb2a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4830260267001575384}
     - targetCorrespondingSourceObject: {fileID: -5930008840019152873, guid: 043b3b3794a31470db3646330215eb2a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1726887690864923954}
@@ -145,7 +148,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2726971651387342232
+--- !u!114 &-6896513720657798168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,5 +163,22 @@ MonoBehaviour:
   sceneId: 0
   _assetId: 2300826924
   serverOnly: 0
-  visibility: 2
+  visibility: 0
   hasSpawned: 0
+--- !u!114 &4830260267001575384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633210917164752854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 8929206046079845992}
