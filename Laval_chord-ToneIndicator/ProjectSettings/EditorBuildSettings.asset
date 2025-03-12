@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/test project.unity
     guid: 8110fb52963d04a1d89eac30585aa411
-  - enabled: 1
+  - enabled: 0
     path: Assets/Laval_chord-ToneInd4.unity
     guid: 1b5bfae3fb6b745429844dbfbe897a99
+  - enabled: 1
+    path: Assets/SimpleScene.unity
+    guid: 5ef83e882291a48a782a3a80091bf6df
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1773e0713bd034748b2c0571bb8cf91d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3f390c6536e71ae4d836eeb6520a0ab4, type: 2}

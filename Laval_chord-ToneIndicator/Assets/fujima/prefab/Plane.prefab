@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5323208272873793611}
   - component: {fileID: 8688675430635752023}
   - component: {fileID: 3814598967180200233}
-  - component: {fileID: 1483037566803036664}
+  - component: {fileID: 6046128882513165138}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1483037566803036664
+--- !u!114 &6046128882513165138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
