@@ -18,7 +18,7 @@ public class Overtone : MonoBehaviour
     {
         // AudioSourceコンポーネントを取得または追加
         audioSource = gameObject.AddComponent<AudioSource>();
-        GetComponent<AudioSource>().volume = 1f;
+         audioSource.volume = 1f;
         audioSource.loop = true; // ループ再生を設定
         
         // 初回のサイン波を生成して再生
@@ -58,6 +58,22 @@ public class Overtone : MonoBehaviour
             {
                 UpdateSineWave();
                 Debug.Log("音が来た");
+                audioSource.volume = 0.8f;
+                audioSource.Play(); // 一致する場合、音を再生
+                isPlaying = true;
+
+                StartCoroutine(CheckIfPlayingForFourSeconds());
+
+            }
+        }
+        else if (Keyboard.current.oKey.isPressed)
+        {
+            Debug.Log("get in");
+            if (!isPlaying)
+            {
+                UpdateSineWave();
+                Debug.Log("音が来た");
+                audioSource.volume = 1.0f;
                 audioSource.Play(); // 一致する場合、音を再生
                 isPlaying = true;
 
