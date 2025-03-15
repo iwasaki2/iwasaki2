@@ -12,7 +12,7 @@ public class ToneIndicator : MonoBehaviour
     void Start()
     {
         targetFreq = 440.0f;
-        range = 10.0f;
+        range = 25.0f;
     }
 
     public void SetTargetFreq(float f)

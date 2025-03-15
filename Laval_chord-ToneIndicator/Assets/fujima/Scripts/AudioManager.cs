@@ -71,19 +71,57 @@ public class AudioManager : NetworkBehaviour
             // 振幅スペクトルの計算
             float[] amplitude = spectrum.Select(c => (float)c.Magnitude).ToArray();
 
-            if( Keyboard.current.rKey.isPressed )
+            if( Keyboard.current.rKey.wasPressedThisFrame )
             {
-                foreach(float x in amplitude)
+                for(int i=0; i<1500; i++)
                 {
+                    float x = amplitude[i];
                     sw.Write(x);
                     sw.Write(",");
                 }
                 sw.WriteLine("");
             }
 
-            // 最大振幅とその周波数を取得
-            int maxIndex = amplitude.ToList().IndexOf(amplitude.Max());
-            float maxAmp = amplitude[maxIndex];
+
+            // 参照用に最大値を持ってくる
+            float maxa = 0;
+            foreach (var f in amplitude)
+                if (maxa < f)
+                    maxa = f;
+
+            // 振幅のピークであって、最大値の 1/2 を超えるような山を検出する
+            Dictionary<int, float> peaks;
+            peaks = new Dictionary<int, float>();
+            int maxIndex = 0;
+            bool isUp;
+
+            float lsum, rsum;
+            lsum = rsum = 0;
+            int winsize = 10;
+            for (int i = 0; i < winsize; i++)
+                lsum += amplitude[i];
+            for (int i = 0; i < winsize; i++)
+                rsum += amplitude[i + winsize];
+            isUp = (lsum < rsum);
+            for (int i=0; i < 2000; i++)
+            {
+                if(isUp && (lsum >= rsum) && lsum > maxa/2)
+                {
+//                    Debug.Log($"{i} , {lsum} , {rsum}");
+                    peaks[i + winsize] = lsum + rsum;
+                    maxIndex = i;
+                }
+                isUp = (lsum < rsum);
+                lsum = lsum - amplitude[i] + amplitude[i + winsize];
+                rsum = rsum - amplitude[i + winsize] + amplitude[i + winsize * 2];
+            }
+
+            // 山のうち、一番音の低い山をとってくる
+            foreach (var (i, p) in peaks)
+                if (i < maxIndex)
+                    maxIndex = i;
+
+            float maxAmp = peaks[maxIndex];
             float maxFreq = (maxIndex * sampleRate) / (float)fftSize;
 
             // ターゲット周波数帯域の強度を計算
