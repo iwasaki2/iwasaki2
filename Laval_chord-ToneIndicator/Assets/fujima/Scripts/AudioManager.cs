@@ -2,7 +2,7 @@ using UnityEngine;
 using MathNet.Numerics.IntegralTransforms; // FFTに必要
 using System.Linq;
 using System.Collections.Generic;
-using System.Numerics; 
+using System.Numerics;
 
 
 
@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
     private Complex[] spectrum; // Complex型の配列
     private Queue<float> recentData = new Queue<float>(); // 最近の周波数データ
 
-    public static float LatestIntensity { get; private set; } 
+    public static float LatestIntensity { get; private set; }
     public static float LatestZ { get; private set; } // 最新のZ値
     public ToneIndicator toneIndicator; // ToneIndicator スクリプトへの参照
 
