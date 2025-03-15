@@ -4,13 +4,15 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Numerics;
 
+using Mirror;
 
+using System.IO;
+using UnityEngine.InputSystem;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : NetworkBehaviour
 {
     private const int sampleRate = 22050; // サンプルレート
     private const int fftSize = 22050; // FFTサイズ
-    private const float targetFreq = 330.0f; // ターゲット周波数 (165Hz)
     private const float bandWidth = 10.0f;  // バンド幅 (10Hz)
 
     private string micName;
@@ -23,25 +25,41 @@ public class AudioManager : MonoBehaviour
     public static float LatestZ { get; private set; } // 最新のZ値
     public ToneIndicator toneIndicator; // ToneIndicator スクリプトへの参照
 
+    StreamWriter sw;
+
+    public PlayerManager playerManager;
+
     void Start()
     {
-        // マイクの設定
-        if (Microphone.devices.Length > 0)
+        if(!isServer || true)
         {
-            micName = Microphone.devices[0]; // 最初のマイクデバイスを選択
-            micInput = Microphone.Start(micName, true, 1, sampleRate); // 録音開始
-            samples = new float[fftSize]; // サンプル配列
-            spectrum = new Complex[fftSize]; // FFTスペクトル用の配列
-            //Debug.Log("Recording started: " + micName);
+            // マイクの設定
+            if (Microphone.devices.Length > 0)
+            {
+                micName = Microphone.devices[0]; // 最初のマイクデバイスを選択
+                micInput = Microphone.Start(micName, true, 1, sampleRate); // 録音開始
+                samples = new float[fftSize]; // サンプル配列
+                spectrum = new Complex[fftSize]; // FFTスペクトル用の配列
+            }
+            else
+            {
+                //Debug.LogError("No microphone found!");
+            }
+            sw = new StreamWriter("voice.txt");
         }
-        else
-        {
-            //Debug.LogError("No microphone found!");
-        }
+    }
+
+    private void OnDestroy()
+    {
+        sw.Close();
     }
 
     void Update()
     {
+        float targetFreq = playerManager.targetFreqF;
+        toneIndicator.SetTargetFreq(targetFreq);
+//        if (isServer) return;
+
         if (Microphone.IsRecording(micName))
         {
             // マイクからデータを取得
@@ -52,6 +70,16 @@ public class AudioManager : MonoBehaviour
 
             // 振幅スペクトルの計算
             float[] amplitude = spectrum.Select(c => (float)c.Magnitude).ToArray();
+
+            if( Keyboard.current.rKey.isPressed )
+            {
+                foreach(float x in amplitude)
+                {
+                    sw.Write(x);
+                    sw.Write(",");
+                }
+                sw.WriteLine("");
+            }
 
             // 最大振幅とその周波数を取得
             int maxIndex = amplitude.ToList().IndexOf(amplitude.Max());
@@ -74,8 +102,7 @@ public class AudioManager : MonoBehaviour
             if (recentData.Count > 3) recentData.Dequeue(); // 最近3回の最大周波数
             LatestZ = recentData.Average(); // Z値はその平均
 
-            // デバッグログ
-            //Debug.Log($"Max Frequency: {maxFreq} Hz, Max Amplitude: {maxAmp}, LatestIntensity: {LatestIntensity}, Z-value: {LatestZ}");
+            Debug.Log($"Max Frequency: {maxFreq} Hz, Max Amplitude: {maxAmp}, LatestIntensity: {LatestIntensity}, Z-value: {LatestZ}");
 
             // ToneIndicatorスクリプトに反映
             if (toneIndicator != null)

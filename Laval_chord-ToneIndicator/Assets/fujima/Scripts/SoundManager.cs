@@ -8,26 +8,23 @@ public class SoundManager : NetworkBehaviour
 {
     private AudioSource audioSource;
     public float frequency = 1320f;
-    private float duration = 1f;
-    private float sampleRate = 22050f;
+//    private float duration = 1f;
+//    private float sampleRate = 22050f;
     public float threshold = 1000f;
 
 
-    private bool isPlaying = false;
-    private bool isPlayingForFourSeconds = false;
-    private float latestIntensity = 0f;
+//    private bool isPlaying = false;
 
-    private Dictionary<int, float> voices;
 
     void Start()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.volume = 1f;
         audioSource.loop = true;
-        UpdateSineWave();
-        voices = new Dictionary<int, float>();
+//        UpdateSineWave();
     }
 
+    /*
     void Update()
     {
         if (!isLocalPlayer) return;
@@ -81,7 +78,6 @@ public class SoundManager : NetworkBehaviour
                 audioSource.Stop();
                 isPlaying = false;
                 StopCoroutine(CheckIfPlayingForFourSeconds());
-                isPlayingForFourSeconds = false;
             }
         }
     }
@@ -119,13 +115,6 @@ public class SoundManager : NetworkBehaviour
         //RpcPlaySound(volume);
     }
 
-    private System.Collections.IEnumerator CheckIfPlayingForFourSeconds()
-    {
-        yield return new WaitForSeconds(4);
-        isPlaying = false;
-        isPlayingForFourSeconds = true;
-        Debug.Log("??4??????????");
-    }
 
     private void UpdateSineWave()
     {
@@ -148,4 +137,5 @@ public class SoundManager : NetworkBehaviour
 
         return audioClip;
     }
+    */
 }

@@ -9,7 +9,6 @@ public class ClientConnector : MonoBehaviour
     public NetworkManagerHUD hud;
     public GameObject temporalCamera;
 
-    bool beingServer;
     // Start is called before the first frame update
     void Start()    // Start() is later than Awake()
     {
@@ -17,7 +16,6 @@ public class ClientConnector : MonoBehaviour
         // nm.networkAddress = "localhost";
         Transport transport = nm.GetComponent<Transport>();
         nm.StartClient();
-        beingServer = false;
     }
 
     void Update()
@@ -39,7 +37,6 @@ public class ClientConnector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             nm.StopClient();
-            beingServer = true;
             hud.enabled = true;
         }
     }

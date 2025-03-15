@@ -24,6 +24,8 @@ public class PlayerManager : NetworkBehaviour
     private float vf2;
     private float hf2;
 
+    public float correctVoicePower;
+
     void Start()
     {
         if (isServer)
@@ -51,6 +53,8 @@ public class PlayerManager : NetworkBehaviour
 
         vf2 = anotherVoiceF;
         hf2 = harmonicF;
+
+        correctVoicePower = 0;
     }
 
     private void Update()
@@ -92,5 +96,15 @@ public class PlayerManager : NetworkBehaviour
 
         return audioClip;
     }
+
+    [Command]
+    public void CmdCurrentVoice(float st)
+    {
+        if (isServer)
+        {
+            correctVoicePower = st;
+        }
+    }
+
 
 }

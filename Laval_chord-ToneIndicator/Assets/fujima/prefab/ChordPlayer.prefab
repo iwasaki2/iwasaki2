@@ -647,9 +647,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1727766512478038433}
   - component: {fileID: 8514836945010843937}
+  - component: {fileID: 4831504065641775624}
   m_Layer: 0
   m_Name: PlayerManager
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -691,6 +692,24 @@ MonoBehaviour:
   harmonicI: 0
   asVoice: {fileID: 1742193536800215817}
   asHarmonic: {fileID: 6284290753730760102}
+  correctVoicePower: 0
+--- !u!114 &4831504065641775624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5166857405719839665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f1d3c385eba1b4db6c20ec7c78f6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  toneIndicator: {fileID: 2588868202726162631}
+  playerManager: {fileID: 8514836945010843937}
 --- !u!1 &5334245050787021642
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5.3, y: 1.4999962}
+  m_AnchoredPosition: {x: 5.3, y: 6.9}
   m_SizeDelta: {x: 862, y: 468.66666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7940403851636208676
@@ -1163,7 +1182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6704856964692374706
 Transform:
   m_ObjectHideFlags: 0
@@ -1287,7 +1306,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f1d3c385eba1b4db6c20ec7c78f6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   toneIndicator: {fileID: 2588868202726162631}
+  playerManager: {fileID: 0}
 --- !u!1 &9060964910032390183
 GameObject:
   m_ObjectHideFlags: 0

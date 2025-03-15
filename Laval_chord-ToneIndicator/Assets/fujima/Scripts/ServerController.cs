@@ -20,6 +20,13 @@ public class ServerController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(var player in players)
+        {
+            PlayerManager pm = player.GetComponent<PlayerManager>();
+            if (pm.correctVoicePower > 10.0f)
+                pm.harmonicI = 1.0f;
+        }
 
     }
 
