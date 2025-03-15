@@ -7,8 +7,7 @@ public class PlayerManager : NetworkBehaviour
 {
     [SyncVar]
     public float targetFreqF;
-    [SyncVar]
-    public float targetFreqI;
+
     [SyncVar]
     public float anotherVoiceF;
     [SyncVar]
@@ -18,27 +17,80 @@ public class PlayerManager : NetworkBehaviour
     [SyncVar]
     public float harmonicI;
 
+    public AudioSource asVoice;
+    public AudioSource asHarmonic;
+    private float sampleRate = 22050f;
+
+    private float vf2;
+    private float hf2;
+
     void Start()
     {
-        if (isServer) // サーバーでのみ初期値を設定
+        if (isServer)
         {
-            targetFreqF = 330;
-            targetFreqI = 660;
-            anotherVoiceF = 264;
-            anotherVoiceI = 528;
-            harmonicF = 1320;
-            harmonicI = 2640;
+            GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().NewClient(this.netId);
         }
+
+        targetFreqF = 330;
+
+        anotherVoiceF = 264;
+        anotherVoiceI = 0;
+
+        harmonicF = 1320;
+        harmonicI = 0.0f;
+
+        asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
+        asVoice.loop = true;
+        asVoice.volume = 0.0f;
+        asVoice.Play();
+
+        asHarmonic.clip = CreateSineWave(harmonicF, sampleRate);
+        asHarmonic.loop = true;
+        asHarmonic.volume = 0.0f;
+        asHarmonic.Play();
+
+        vf2 = anotherVoiceF;
+        hf2 = harmonicF;
     }
 
-    // サーバーが特定のクライアントにデータを送る
-    [TargetRpc]
-    public void TargetUpdateFrequencies(NetworkConnectionToClient target)
+    private void Update()
     {
-        targetFreqF = 660;
-        anotherVoiceF = 528;
-        harmonicI = 2640;
+        if( vf2 != anotherVoiceF )
+        {
+            asVoice.Stop();
+            asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
+            asVoice.Play();
+            vf2 = anotherVoiceF;
+        }
+        // anotherVoiceF の音を強さ anotherVoiceI で出す。
+        asVoice.volume = anotherVoiceI;
 
-        Debug.Log($"クライアント {netId} にデータを送信: targetFreqF={targetFreqF}, anotherVoiceF={anotherVoiceF}, harmonicI={harmonicI}");
+        if(hf2 != harmonicF)
+        {
+            asHarmonic.Stop();
+            asHarmonic.clip = CreateSineWave(harmonicF, sampleRate);
+            asHarmonic.Play();
+            hf2 = harmonicF;
+        }
+
+        // harmonicF の音を強さ harmonicI で出す。
+        asHarmonic.volume = harmonicI;
     }
+
+    private AudioClip CreateSineWave(float frequency, float sampleRate)
+    {
+        int sampleCount = (int)(sampleRate / frequency);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            samples[i] = Mathf.Sin(2 * Mathf.PI * frequency * i / sampleRate);
+        }
+
+        AudioClip audioClip = AudioClip.Create("SineWave", sampleCount, 1, (int)sampleRate, false);
+        audioClip.SetData(samples, 0);
+
+        return audioClip;
+    }
+
 }

@@ -187,7 +187,6 @@ GameObject:
   - component: {fileID: 11400010}
   - component: {fileID: 11400000}
   - component: {fileID: 114473266101150724}
-  - component: {fileID: 1914391904101781208}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -332,20 +331,6 @@ MonoBehaviour:
   - <Keyboard>/leftAlt
   - <Keyboard>/rightAlt
   - <Keyboard>/f2
---- !u!114 &1914391904101781208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cde73078caafbb445ab51fc7180b26d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequency: 1320
-  threshold: 1000
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 0
