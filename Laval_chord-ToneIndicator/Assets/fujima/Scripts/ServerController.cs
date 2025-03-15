@@ -24,8 +24,12 @@ public class ServerController : NetworkBehaviour
         foreach(var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
-            if (pm.correctVoicePower > 10.0f)
+            Debug.Log(player.name);
+            Debug.Log(pm.correctVoicePower);
+            if (pm.correctVoicePower > 100.0f)
                 pm.harmonicI = 1.0f;
+            else
+                pm.harmonicI = 0.0f;
         }
 
     }

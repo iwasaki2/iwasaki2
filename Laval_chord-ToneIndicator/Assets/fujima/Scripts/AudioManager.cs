@@ -21,8 +21,8 @@ public class AudioManager : NetworkBehaviour
     private Complex[] spectrum; // Complex型の配列
     private Queue<float> recentData = new Queue<float>(); // 最近の周波数データ
 
-    public static float LatestIntensity { get; private set; }
-    public static float LatestZ { get; private set; } // 最新のZ値
+//    public static float LatestIntensity { get; private set; }
+//    public static float LatestZ { get; private set; } // 最新のZ値
     public ToneIndicator toneIndicator; // ToneIndicator スクリプトへの参照
 
     StreamWriter sw;
@@ -90,6 +90,7 @@ public class AudioManager : NetworkBehaviour
                     maxa = f;
 
             // 振幅のピークであって、最大値の 1/2 を超えるような山を検出する
+            float PEAKRATIO = 0.5f;
             Dictionary<int, float> peaks;
             peaks = new Dictionary<int, float>();
             int maxIndex = 0;
@@ -103,9 +104,10 @@ public class AudioManager : NetworkBehaviour
             for (int i = 0; i < winsize; i++)
                 rsum += amplitude[i + winsize];
             isUp = (lsum < rsum);
+            maxIndex = 0;
             for (int i=0; i < 2000; i++)
             {
-                if(isUp && (lsum >= rsum) && lsum > maxa/2)
+                if(isUp && (lsum >= rsum) && lsum > maxa * PEAKRATIO && lsum>100)
                 {
 //                    Debug.Log($"{i} , {lsum} , {rsum}");
                     peaks[i + winsize] = lsum + rsum;
@@ -121,32 +123,36 @@ public class AudioManager : NetworkBehaviour
                 if (i < maxIndex)
                     maxIndex = i;
 
-            float maxAmp = peaks[maxIndex];
-            float maxFreq = (maxIndex * sampleRate) / (float)fftSize;
-
-            // ターゲット周波数帯域の強度を計算
-            LatestIntensity = 0;
-            for (int i = 0; i < fftSize / 2; i++)
+            if (peaks.ContainsKey(maxIndex))
             {
-                float freq = (i * sampleRate) / (float)fftSize;
-                if (freq >= targetFreq - bandWidth / 2 && freq <= targetFreq + bandWidth / 2)
+                float maxAmp = peaks[maxIndex] / winsize;
+                float maxFreq = (maxIndex * sampleRate) / (float)fftSize;
+
+                // ターゲット周波数帯域の強度を計算
+                float targetPower = 0;
+                for (int i = 0; i < fftSize / 2; i++)
                 {
-                    LatestIntensity += amplitude[i];
+                    float freq = (i * sampleRate) / (float)fftSize;
+                    if (freq >= targetFreq - bandWidth / 2 && freq <= targetFreq + bandWidth / 2)
+                    {
+                        targetPower += amplitude[i];
+                    }
                 }
+                // ToneIndicatorスクリプトに反映
+                if (toneIndicator != null)
+                {
+                    toneIndicator.SetCurrentFreq(maxFreq);
+                }
+
+                playerManager.CmdCurrentVoice(targetPower);
+
+                Debug.Log($"Max Frequency: {maxFreq} Hz, Max Amplitude: {maxAmp}, Power: {targetPower}");
             }
-
-            // Z値（最近の最大周波数の平均）
-            recentData.Enqueue(maxFreq);
-            if (recentData.Count > 3) recentData.Dequeue(); // 最近3回の最大周波数
-            LatestZ = recentData.Average(); // Z値はその平均
-
-            Debug.Log($"Max Frequency: {maxFreq} Hz, Max Amplitude: {maxAmp}, LatestIntensity: {LatestIntensity}, Z-value: {LatestZ}");
-
-            // ToneIndicatorスクリプトに反映
-            if (toneIndicator != null)
+            else
             {
-                toneIndicator.SetCurrentFreq(LatestZ);
+                playerManager.CmdCurrentVoice(0);
             }
+
         }
     }
 

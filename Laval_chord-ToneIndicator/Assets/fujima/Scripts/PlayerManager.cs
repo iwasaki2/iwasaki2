@@ -33,7 +33,7 @@ public class PlayerManager : NetworkBehaviour
             GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().NewClient(this.netId);
         }
 
-        targetFreqF = 330;
+        targetFreqF = 165F;
 
         anotherVoiceF = 264;
         anotherVoiceI = 0;
@@ -100,6 +100,7 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void CmdCurrentVoice(float st)
     {
+        Debug.Log($"cmd {st}");
         if (isServer)
         {
             correctVoicePower = st;
