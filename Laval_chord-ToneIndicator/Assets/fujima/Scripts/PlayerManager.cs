@@ -26,6 +26,8 @@ public class PlayerManager : NetworkBehaviour
 
     public float correctVoicePower;
 
+    public bool isFemale;
+
     void Start()
     {
         if (isServer)
@@ -55,10 +57,13 @@ public class PlayerManager : NetworkBehaviour
         hf2 = harmonicF;
 
         correctVoicePower = 0;
+        isFemale = false;
     }
 
     private void Update()
     {
+        if(isServer) return;
+
         if( vf2 != anotherVoiceF )
         {
             asVoice.Stop();
@@ -79,6 +84,16 @@ public class PlayerManager : NetworkBehaviour
 
         // harmonicF の音を強さ harmonicI で出す。
         asHarmonic.volume = harmonicI;
+
+
+        if (OVRInput.GetDown(OVRInput.RawButton.X))
+        {
+            CmdSetSex('F');
+        }
+        if (OVRInput.GetDown(OVRInput.RawButton.Y))
+        {
+            CmdSetSex('M');
+        }
     }
 
     private AudioClip CreateSineWave(float frequency, float sampleRate)
@@ -107,5 +122,14 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdSetSex(char s)
+    {
+        Debug.Log($"cmd {s}");
+        if (isServer)
+        {
+            isFemale = ( s == 'F' );
+        }
+    }
 
 }

@@ -693,6 +693,7 @@ MonoBehaviour:
   asVoice: {fileID: 1742193536800215817}
   asHarmonic: {fileID: 6284290753730760102}
   correctVoicePower: 0
+  isFemale: 0
 --- !u!114 &4831504065641775624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,7 +1367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   _assetId: 2145937257
-  serverOnly: 1
+  serverOnly: 0
   visibility: 0
   hasSpawned: 0
 --- !u!114 &9170038387514495405

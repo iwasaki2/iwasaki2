@@ -31,22 +31,21 @@ public class AudioManager : NetworkBehaviour
 
     void Start()
     {
-        if(!isServer || true)
+        if(isServer) return;
+
+        // マイクの設定
+        if (Microphone.devices.Length > 0)
         {
-            // マイクの設定
-            if (Microphone.devices.Length > 0)
-            {
-                micName = Microphone.devices[0]; // 最初のマイクデバイスを選択
-                micInput = Microphone.Start(micName, true, 1, sampleRate); // 録音開始
-                samples = new float[fftSize]; // サンプル配列
-                spectrum = new Complex[fftSize]; // FFTスペクトル用の配列
-            }
-            else
-            {
-                //Debug.LogError("No microphone found!");
-            }
-            sw = new StreamWriter("voice.txt");
+            micName = Microphone.devices[0]; // 最初のマイクデバイスを選択
+            micInput = Microphone.Start(micName, true, 1, sampleRate); // 録音開始
+            samples = new float[fftSize]; // サンプル配列
+            spectrum = new Complex[fftSize]; // FFTスペクトル用の配列
         }
+        else
+        {
+            //Debug.LogError("No microphone found!");
+        }
+        sw = new StreamWriter("voice.txt");
     }
 
     private void OnDestroy()
@@ -56,9 +55,10 @@ public class AudioManager : NetworkBehaviour
 
     void Update()
     {
+        if(isServer) return;
+        
         float targetFreq = playerManager.targetFreqF;
         toneIndicator.SetTargetFreq(targetFreq);
-//        if (isServer) return;
 
         if (Microphone.IsRecording(micName))
         {
