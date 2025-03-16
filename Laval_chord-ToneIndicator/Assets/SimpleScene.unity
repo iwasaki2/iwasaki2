@@ -216,8 +216,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  CorrectVoicePowerThreshold: 500
-  MaxHarmonicAdditionalPowerLevel: 1000
+  CorrectVoicePowerThreshold: 300
+  MaxHarmonicAdditionalPowerLevel: 600
 --- !u!4 &648620105
 Transform:
   m_ObjectHideFlags: 0

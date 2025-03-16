@@ -57,8 +57,9 @@ public class AudioManager : NetworkBehaviour
     {
         if(isServer) return;
 
-        float targetFreq = playerManager.targetFreqF;
+        float targetFreq = playerManager.targetFreq;
         toneIndicator.SetTargetFreq(targetFreq);
+        toneIndicator.SetFreqRange(targetFreq / 5);
 
         if (Microphone.IsRecording(micName))
         {

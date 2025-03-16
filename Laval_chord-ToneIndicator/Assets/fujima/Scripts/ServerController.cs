@@ -8,8 +8,7 @@ public class ServerController : NetworkBehaviour
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
 
-    float[] voiceFreq = { 264, 330 };
-    float[] harmFreq = { 1320, 2640 };
+    float[] harmonicFreq = { 660, 1320 };
 
     uint[] clients = { 0, 0 };
     int clientCount;
@@ -26,7 +25,8 @@ public class ServerController : NetworkBehaviour
         if(!isServer) return;
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        if(players.Length == 0) return;
+        int playerCount = players.Length;
+        if(playerCount == 0) return;
 
         bool isHarmonic = true;
         float harmonicLevel = 0;
@@ -37,7 +37,7 @@ public class ServerController : NetworkBehaviour
             harmonicLevel += pm.correctVoicePower - CorrectVoicePowerThreshold;
         }
 
-        harmonicLevel /= players.Length;
+        harmonicLevel /= playerCount;
         harmonicLevel /= MaxHarmonicAdditionalPowerLevel;
         if( harmonicLevel > 1.0f ) harmonicLevel = 1.0f; else if(harmonicLevel < 0) harmonicLevel = 0;
         if(!isHarmonic) harmonicLevel =0;
@@ -47,19 +47,42 @@ public class ServerController : NetworkBehaviour
             PlayerManager pm = player.GetComponent<PlayerManager>();
             pm.harmonicI = harmonicLevel;
         }
+
+        if(playerCount == 1)
+        {
+            Debug.Log("here");
+            players[0].GetComponent<PlayerManager>().anotherVoiceI = 1.0f;
+        }
+
+        bool isHighHarmonic = false;
+        foreach (var player in players)
+        {
+            PlayerManager pm = player.GetComponent<PlayerManager>();
+            if (pm.isLower && pm.isFemale) isHighHarmonic = true;
+        }
+
+        foreach (var player in players)
+        {
+            PlayerManager pm = player.GetComponent<PlayerManager>();
+            pm.harmonicF = isHighHarmonic ? harmonicFreq[1] : harmonicFreq[0];
+        }
+
     }
 
-    public void NewClient(uint cid)
+    public void NewClient(PlayerManager pm)
     {
         if (!isServer) return;
 
-        Debug.Log($"Client {cid} connected");
+        Debug.Log($"Client {pm.netId} connected");
+        pm.isLower = (clientCount == 0);
+
         if (clientCount == 2)
         {
             Debug.Log("Too Many Clients");
             return;
         }
-        clients[clientCount] = cid;
+        clients[clientCount] = pm.netId;
+
         clientCount++;
     }
 }

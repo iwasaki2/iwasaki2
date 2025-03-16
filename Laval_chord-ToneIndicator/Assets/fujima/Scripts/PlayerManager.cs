@@ -6,7 +6,10 @@ using Mirror;
 public class PlayerManager : NetworkBehaviour
 {
     [SyncVar]
-    public float targetFreqF;
+    public bool isLower;
+
+    [SyncVar]
+    public float targetFreq;
 
     [SyncVar]
     public float anotherVoiceF;
@@ -28,20 +31,19 @@ public class PlayerManager : NetworkBehaviour
 
     public bool isFemale;
 
+    float[] targetFreqs = { 132, 165 };
+
     void Start()
     {
+        isLower = true;
+
         if (isServer)
         {
-            GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().NewClient(this.netId);
+            GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().NewClient(this);
         }
 
-        targetFreqF = 165F;
-
-        anotherVoiceF = 264;
-        anotherVoiceI = 0;
-
+        anotherVoiceF = 1000;
         harmonicF = 1320;
-        harmonicI = 0.0f;
 
         asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
         asVoice.loop = true;
@@ -62,18 +64,25 @@ public class PlayerManager : NetworkBehaviour
 
     private void Update()
     {
-        if(isServer) return;
+        targetFreq = (isLower) ? targetFreqs[0] : targetFreqs[1];
+        if (isFemale) targetFreq *= 2;
 
-        if( vf2 != anotherVoiceF )
+        anotherVoiceF = (!isLower) ? targetFreqs[0] : targetFreqs[1];
+        if (isFemale) anotherVoiceF *= 2;
+
+        if (isServer) return;
+
+        asVoice.volume = anotherVoiceI;
+        if ( vf2 != anotherVoiceF )
         {
             asVoice.Stop();
             asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
             asVoice.Play();
             vf2 = anotherVoiceF;
         }
-        // anotherVoiceF の音を強さ anotherVoiceI で出す。
-        asVoice.volume = anotherVoiceI;
 
+        // harmonicF の音を強さ harmonicI で出す。
+        asHarmonic.volume = 1.0f;
         if(hf2 != harmonicF)
         {
             asHarmonic.Stop();
@@ -82,10 +91,7 @@ public class PlayerManager : NetworkBehaviour
             hf2 = harmonicF;
         }
 
-        // harmonicF の音を強さ harmonicI で出す。
-        asHarmonic.volume = harmonicI;
-
-
+        
         if (OVRInput.GetDown(OVRInput.RawButton.X))
         {
             CmdSetSex('F');

@@ -25,12 +25,6 @@ public class ToneIndicator : MonoBehaviour
         range = r;
     }
 
-    public void SetSex(string newSex) // `SetSex()` を追加
-    {
-        sex = newSex;
-        Debug.Log("SetSex() 実行: 性別 = " + sex);
-    }
-
     public void SetCurrentFreq(float f)
     {
         float v;
