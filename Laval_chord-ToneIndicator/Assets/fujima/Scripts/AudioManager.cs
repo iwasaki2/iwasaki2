@@ -45,12 +45,12 @@ public class AudioManager : NetworkBehaviour
         {
             //Debug.LogError("No microphone found!");
         }
-        sw = new StreamWriter("voice.txt");
+        //sw = new StreamWriter("voice.txt");
     }
 
     private void OnDestroy()
     {
-        sw.Close();
+       // sw.Close();
     }
 
     void Update()
@@ -71,7 +71,7 @@ public class AudioManager : NetworkBehaviour
             // 振幅スペクトルの計算
             float[] amplitude = spectrum.Select(c => (float)c.Magnitude).ToArray();
 
-            if( Keyboard.current.rKey.wasPressedThisFrame )
+           /* if( Keyboard.current.rKey.wasPressedThisFrame )
             {
                 for(int i=0; i<1500; i++)
                 {
@@ -82,7 +82,7 @@ public class AudioManager : NetworkBehaviour
                 sw.WriteLine("");
             }
 
-
+            */
             // 参照用に最大値を持ってくる
             float maxa = 0;
             foreach (var f in amplitude)

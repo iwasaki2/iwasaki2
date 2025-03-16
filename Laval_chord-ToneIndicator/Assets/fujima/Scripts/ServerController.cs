@@ -38,7 +38,7 @@ public class ServerController : NetworkBehaviour
         }
 
         harmonicLevel /= players.Length;
-        harmonicLevel /= MaxHarmonicPowerThreshold;
+        harmonicLevel /= MaxHarmonicAdditionalPowerLevel;
         if( harmonicLevel > 1.0f ) harmonicLevel = 1.0f; else if(harmonicLevel < 0) harmonicLevel = 0;
         if(!isHarmonic) harmonicLevel =0;
 

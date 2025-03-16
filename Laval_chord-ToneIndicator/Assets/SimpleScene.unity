@@ -216,6 +216,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  CorrectVoicePowerThreshold: 500
+  MaxHarmonicAdditionalPowerLevel: 1000
 --- !u!4 &648620105
 Transform:
   m_ObjectHideFlags: 0
@@ -437,6 +439,7 @@ GameObject:
   - component: {fileID: 1981187298}
   - component: {fileID: 1981187297}
   - component: {fileID: 1981187300}
+  - component: {fileID: 1981187301}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -479,7 +482,7 @@ MonoBehaviour:
   onlineScene: 
   offlineSceneLoadDelay: 0
   transport: {fileID: 1981187300}
-  networkAddress: localhost
+  networkAddress: 172.16.176.18
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -547,6 +550,20 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+--- !u!114 &1981187301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981187296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69aeb6e3699ba430aa5a08a6a89cb05b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hud: {fileID: 1981187297}
+  temporalCamera: {fileID: 0}
 --- !u!4 &95162975952126612
 Transform:
   m_ObjectHideFlags: 0
