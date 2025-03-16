@@ -56,7 +56,7 @@ public class AudioManager : NetworkBehaviour
     void Update()
     {
         if(isServer) return;
-        
+
         float targetFreq = playerManager.targetFreqF;
         toneIndicator.SetTargetFreq(targetFreq);
 

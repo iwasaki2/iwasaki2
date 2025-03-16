@@ -20,6 +20,8 @@ public class ServerController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!isServer) return;
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach(var player in players)
         {
