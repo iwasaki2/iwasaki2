@@ -5,6 +5,8 @@ using Mirror;
 
 public class ServerController : NetworkBehaviour
 {
+    public float CorrectVoicePowerThreshold = 500.0f;
+
     float[] voiceFreq = { 264, 330 };
     float[] harmFreq = { 1320, 2640 };
 
@@ -23,17 +25,26 @@ public class ServerController : NetworkBehaviour
         if(!isServer) return;
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+
+        bool isHarmonic = true;
+        float harmonicLevel = 0;
         foreach(var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
-            Debug.Log(player.name);
-            Debug.Log(pm.correctVoicePower);
-            if (pm.correctVoicePower > 100.0f)
-                pm.harmonicI = 1.0f;
-            else
-                pm.harmonicI = 0.0f;
+            isHarmonic = isHarmonic && (pm.correctVoicePower > CorrectVoicePowerThreshold);
+            harmonicLevel += pm.correctVoicePower - CorrectVoicePowerThreshold;
         }
 
+        harmonicLevel /= 500.0f;
+        if( harmonicLevel > 1.0f ) harmonicLevel = 1.0f; else if(harmonicLevel < 0) harmonicLevel = 0;
+        if(!isHarmonic) harmonicLevel =0;
+
+        foreach(var player in players)
+        {
+            PlayerManager pm = player.GetComponent<PlayerManager>();
+            pm.harmonicI = harmonicLevel;
+        }
     }
 
     public void NewClient(uint cid)
