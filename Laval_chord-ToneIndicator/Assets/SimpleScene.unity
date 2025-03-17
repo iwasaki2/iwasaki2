@@ -218,6 +218,8 @@ MonoBehaviour:
   syncInterval: 0
   CorrectVoicePowerThreshold: 300
   MaxHarmonicAdditionalPowerLevel: 600
+  VoiceLength: 2
+  at: {fileID: 1975580891}
 --- !u!4 &648620105
 Transform:
   m_ObjectHideFlags: 0
@@ -305,10 +307,6 @@ PrefabInstance:
     - target: {fileID: 5100731576313354619, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
       propertyPath: sceneId
       value: 2875714845
-      objectReference: {fileID: 0}
-    - target: {fileID: 5100731576313354619, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
-      propertyPath: visibility
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -427,6 +425,17 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &1975580891 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1372015315783030762, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
+  m_PrefabInstance: {fileID: 1240366319}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406a1e4c1d2034679a88f9f69ac1b4d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1981187296
 GameObject:
   m_ObjectHideFlags: 0

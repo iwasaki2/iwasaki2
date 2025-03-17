@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using static OVRManager;
 
 public class PlayerManager : NetworkBehaviour
 {
@@ -31,8 +32,6 @@ public class PlayerManager : NetworkBehaviour
 
     public bool isFemale;
 
-    float[] targetFreqs = { 132, 165 };
-
     void Start()
     {
         isLower = true;
@@ -60,15 +59,12 @@ public class PlayerManager : NetworkBehaviour
 
         correctVoicePower = 0;
         isFemale = false;
+
+        OVRManager.HMDUnmounted += CmdRestart;
     }
 
     private void Update()
     {
-        targetFreq = (isLower) ? targetFreqs[0] : targetFreqs[1];
-        if (isFemale) targetFreq *= 2;
-
-        anotherVoiceF = (!isLower) ? targetFreqs[0] : targetFreqs[1];
-        if (isFemale) anotherVoiceF *= 2;
 
         if (isServer) return;
 
@@ -80,7 +76,6 @@ public class PlayerManager : NetworkBehaviour
             asVoice.Play();
             vf2 = anotherVoiceF;
 
-            //StartCoroutine(TriggerAnimationAfterDelay());
         }
 
 
@@ -121,16 +116,6 @@ public class PlayerManager : NetworkBehaviour
         return audioClip;
     }
 
-    /*private IEnumerator TriggerAnimationAfterDelay()
-    {
-        yield return new WaitForSeconds(4.0f); // 4秒待機
-
-        AnimationTest animTest = FindObjectOfType<AnimationTest>(); // AnimationTestスクリプトを探す
-        if (animTest != null && animTest.m_Animator != null)
-        {
-            animTest.m_Animator.SetBool("isplaying", true);
-        }
-    }*/
 
     [Command]
     public void CmdCurrentVoice(float st)
@@ -150,6 +135,13 @@ public class PlayerManager : NetworkBehaviour
         {
             isFemale = ( s == 'F' );
         }
+    }
+
+    [Command]
+    void CmdRestart()
+    {
+        Debug.Log("Unmount detected");
+        GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().RestartGame();
     }
 
 }

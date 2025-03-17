@@ -7,8 +7,13 @@ public class ServerController : NetworkBehaviour
 {
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
+    public float VoiceLength = 1.0f;
     private Coroutine animationCoroutine;
 
+    public AnimationTest at;
+
+
+    float[] targetFreqs = { 132, 165 };
     float[] harmonicFreq = { 660, 1320 };
 
     uint[] clients = { 0, 0 };
@@ -18,6 +23,7 @@ public class ServerController : NetworkBehaviour
     void Start()
     {
         clientCount = 0;
+
     }
 
     // Update is called once per frame
@@ -83,12 +89,22 @@ public class ServerController : NetworkBehaviour
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
             pm.harmonicF = isHighHarmonic ? harmonicFreq[1] : harmonicFreq[0];
+
+            float tf = (pm.isLower) ? targetFreqs[0] : targetFreqs[1];
+            if (pm.isFemale) tf *= 2;
+            pm.targetFreq = tf;
+
+            float af = (!pm.isLower) ? targetFreqs[0] : targetFreqs[1];
+            if (pm.isFemale) af *= 2;
+            pm.anotherVoiceF = af;
         }
 
     }
+
     private IEnumerator TriggerAnimationAfterDelay()
     {
-        yield return new WaitForSeconds(4.0f); // 4???
+        Debug.Log("?????????????");
+        yield return new WaitForSeconds(VoiceLength);
         Debug.Log("??????????");
 
         AnimationTest animTest = FindObjectOfType<AnimationTest>();
@@ -96,6 +112,7 @@ public class ServerController : NetworkBehaviour
         {
             animTest.StartAnimation(); // ?????????????
         }
+        animationCoroutine = null; // ?????????????
     }
 
     public void NewClient(PlayerManager pm)
@@ -113,5 +130,11 @@ public class ServerController : NetworkBehaviour
         clients[clientCount] = pm.netId;
 
         clientCount++;
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("Restart Called");
+        at.StopAnimation();
     }
 }
