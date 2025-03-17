@@ -79,10 +79,13 @@ public class PlayerManager : NetworkBehaviour
             asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
             asVoice.Play();
             vf2 = anotherVoiceF;
+
+            //StartCoroutine(TriggerAnimationAfterDelay());
         }
 
+
         // harmonicF の音を強さ harmonicI で出す。
-        asHarmonic.volume = 1.0f;
+        asHarmonic.volume = harmonicI;
         if(hf2 != harmonicF)
         {
             asHarmonic.Stop();
@@ -117,6 +120,17 @@ public class PlayerManager : NetworkBehaviour
 
         return audioClip;
     }
+
+    /*private IEnumerator TriggerAnimationAfterDelay()
+    {
+        yield return new WaitForSeconds(4.0f); // 4秒待機
+
+        AnimationTest animTest = FindObjectOfType<AnimationTest>(); // AnimationTestスクリプトを探す
+        if (animTest != null && animTest.m_Animator != null)
+        {
+            animTest.m_Animator.SetBool("isplaying", true);
+        }
+    }*/
 
     [Command]
     public void CmdCurrentVoice(float st)

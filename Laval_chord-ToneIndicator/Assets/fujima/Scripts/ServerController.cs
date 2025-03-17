@@ -7,6 +7,7 @@ public class ServerController : NetworkBehaviour
 {
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
+    private Coroutine animationCoroutine;
 
     float[] harmonicFreq = { 660, 1320 };
 
@@ -22,20 +23,37 @@ public class ServerController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isServer) return;
+        if (!isServer) return;
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         int playerCount = players.Length;
-        if(playerCount == 0) return;
+        if (playerCount == 0) return;
 
         bool isHarmonic = true;
         float harmonicLevel = 0;
-        foreach(var player in players)
+        foreach (var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
             isHarmonic = isHarmonic && (pm.correctVoicePower > CorrectVoicePowerThreshold);
             harmonicLevel += pm.correctVoicePower - CorrectVoicePowerThreshold;
         }
+        //ture????????????
+        if (isHarmonic)
+        {
+            if (animationCoroutine == null) // ???????????????????
+            {
+                animationCoroutine = StartCoroutine(TriggerAnimationAfterDelay());
+            }
+        }
+        else
+        {
+            if (animationCoroutine != null) // isHarmonic ? false ????????????
+            {
+                StopCoroutine(animationCoroutine);
+                animationCoroutine = null; // ???????
+            }
+        }
+
 
         harmonicLevel /= playerCount;
         harmonicLevel /= MaxHarmonicAdditionalPowerLevel;
@@ -54,7 +72,7 @@ public class ServerController : NetworkBehaviour
             players[0].GetComponent<PlayerManager>().anotherVoiceI = 1.0f;
         }
 
-        bool isHighHarmonic = false;
+        bool isHighHarmonic = false;// false???????????
         foreach (var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
@@ -67,6 +85,17 @@ public class ServerController : NetworkBehaviour
             pm.harmonicF = isHighHarmonic ? harmonicFreq[1] : harmonicFreq[0];
         }
 
+    }
+    private IEnumerator TriggerAnimationAfterDelay()
+    {
+        yield return new WaitForSeconds(4.0f); // 4???
+        Debug.Log("??????????");
+
+        AnimationTest animTest = FindObjectOfType<AnimationTest>();
+        if (animTest != null)
+        {
+            animTest.StartAnimation(); // ?????????????
+        }
     }
 
     public void NewClient(PlayerManager pm)

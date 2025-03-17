@@ -4,32 +4,26 @@ using Mirror;
 
 public class AnimationTest : NetworkBehaviour
 {
-    private Animator m_Animator;
-    private float keyPressTime = 0f;
-    private const float thresholdTime = 3f;
+    public Animator m_Animator;
+    private bool isAnimationTriggered = false; // アニメーションを制御するフラグ
 
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    public void StartAnimation() // アニメーションを開始するメソッド
     {
-        // "s"キーを押し続けた時間を測定（新しい Input System）
-        if (Keyboard.current.sKey.isPressed)
-        {
-            keyPressTime += Time.deltaTime;
-        }
-        else
-        {
-            keyPressTime = 0f;
-        }
-
-        // 3秒以上押し続けたら isPlaying を true にする
-        if (keyPressTime >= thresholdTime)
+        if (!isAnimationTriggered) // すでに実行されていなければ開始
         {
             m_Animator.SetBool("isplaying", true);
-            Debug.Log("\"s\"キーを3秒間押し続けた");
+            isAnimationTriggered = true; // フラグを立てて二重実行を防ぐ
         }
+    }
+
+    public void StopAnimation() // アニメーションを停止するメソッド
+    {
+        m_Animator.SetBool("isplaying", false);
+        isAnimationTriggered = false;
     }
 }
