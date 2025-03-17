@@ -218,7 +218,7 @@ MonoBehaviour:
   syncInterval: 0
   CorrectVoicePowerThreshold: 300
   MaxHarmonicAdditionalPowerLevel: 600
-  VoiceLength: 2
+  VoiceLength: 4
   at: {fileID: 1975580891}
 --- !u!4 &648620105
 Transform:
