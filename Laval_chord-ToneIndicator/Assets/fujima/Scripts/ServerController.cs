@@ -7,7 +7,7 @@ public class ServerController : NetworkBehaviour
 {
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
-    public float VoiceLength = 1.0f;
+    public float VoiceLength = 4.0f;
     private Coroutine animationCoroutine;
 
     public AnimationTest at;
@@ -46,17 +46,29 @@ public class ServerController : NetworkBehaviour
         //ture????????????
         if (isHarmonic)
         {
-            if (animationCoroutine == null) // ???????????????????
+            AnimationTest animTest = FindObjectOfType<AnimationTest>();
+            if (animTest != null)
+            {
+                animTest.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
+            }
+
+            if (animationCoroutine == null)
             {
                 animationCoroutine = StartCoroutine(TriggerAnimationAfterDelay());
             }
         }
         else
         {
-            if (animationCoroutine != null) // isHarmonic ? false ????????????
+            if (animationCoroutine != null)
             {
                 StopCoroutine(animationCoroutine);
-                animationCoroutine = null; // ???????
+                animationCoroutine = null;
+            }
+
+            AnimationTest animTest = FindObjectOfType<AnimationTest>();
+            if (animTest != null)
+            {
+                animTest.utostoAnimation();  // isHarmonicがfalseなら停止
             }
         }
 

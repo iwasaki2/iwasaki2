@@ -21,6 +21,24 @@ public class AnimationTest : NetworkBehaviour
         }
     }
 
+    public void utostaAnimation() 
+    {
+        if (!isAnimationTriggered) 
+        {
+            m_Animator.SetBool("isplaying", true);
+            isAnimationTriggered = true; 
+        }
+    }
+    public void utostoAnimation() 
+    {
+        if (!isAnimationTriggered) 
+        {
+            m_Animator.SetBool("isplaying", true);
+            isAnimationTriggered = true; 
+        }
+    }
+
+
     public void StopAnimation() // アニメーションを停止するメソッド
     {
         m_Animator.SetBool("isplaying", false);
