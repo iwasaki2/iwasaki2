@@ -26,4 +26,6 @@ public class AnimationTest : NetworkBehaviour
         m_Animator.SetBool("isplaying", false);
         isAnimationTriggered = false;
     }
+
+
 }
