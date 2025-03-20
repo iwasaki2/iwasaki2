@@ -3792,7 +3792,7 @@ MonoBehaviour:
   onlineScene: 
   offlineSceneLoadDelay: 0
   transport: {fileID: 1981187300}
-  networkAddress: 192.168.68.1
+  networkAddress: 192.168.68.56
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
