@@ -44,12 +44,12 @@ public class ServerController : NetworkBehaviour
             harmonicLevel += pm.correctVoicePower - CorrectVoicePowerThreshold;
         }
         //ture????????????
-        if (isHarmonic)
+       　if (isHarmonic)
         {
-             at = FindObjectOfType<AnimationTest>();
+            at = FindObjectOfType<AnimationTest>();
             if (at != null)
             {
-                at.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
+                at.utostaAnimation();  // ウトウト再生
             }
 
             if (animationCoroutine == null)
@@ -68,7 +68,23 @@ public class ServerController : NetworkBehaviour
             AnimationTest animTest = FindObjectOfType<AnimationTest>();
             if (animTest != null)
             {
-                animTest.utostoAnimation();  // isHarmonicがfalseなら停止
+                animTest.utostoAnimation();  // ウトウト停止
+            }
+        }
+
+        // harmonicLevel計算後
+        if (harmonicLevel >= 1.0f)  // 基準値超えたら
+        {
+            at = FindObjectOfType<AnimationTest>();
+            if (at != null)
+            {
+                at.StartAnimation();  // 強制本編開始
+            }
+
+            if (animationCoroutine != null)
+            {
+                StopCoroutine(animationCoroutine);
+                animationCoroutine = null;
             }
         }
 

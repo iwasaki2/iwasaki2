@@ -5,36 +5,54 @@ using Mirror;
 public class AnimationTest : NetworkBehaviour
 {
     public Animator m_Animator;
-    private bool isAnimationTriggered = false; // アニメーションを制御するフラグ
+
+    private bool isMainAnimationStarted = false;  // 本編開始フラグ
+    private bool isUtoutoPlaying = false;         // ウトウト再生中フラグ
 
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
     }
 
-    public void StartAnimation() // アニメーションを開始するメソッド
+    // 本編アニメーション開始（優先度最高）
+    public void StartAnimation()
     {
-        if (!isAnimationTriggered) // すでに実行されていなければ開始
+        if (!isMainAnimationStarted)
         {
-            m_Animator.SetBool("isplaying", true);
+            m_Animator.SetBool("isplaying", true);   // 本編スタート
+            m_Animator.SetBool("utouto", false);     // ウトウト強制終了
+            isMainAnimationStarted = true;
+            isUtoutoPlaying = false;
         }
     }
 
-    public void StopAnimation() // アニメーションを停止するメソッド
-    {
-        m_Animator.SetBool("isplaying", false);
-        isAnimationTriggered = false;
-    }
+    // ウトウトアニメーション（本編開始前のみ許可）
     public void utostaAnimation()
     {
-        m_Animator.SetBool("utouto", true);
-        isAnimationTriggered = true;
-    }
+        // 本編始まったら、もうウトウトは動かさない
+        if (isMainAnimationStarted) return;
 
-    // utouto状態をOFFにするメソッド
+        if (!isUtoutoPlaying)
+        {
+            m_Animator.SetBool("utouto", true);
+            isUtoutoPlaying = true;
+        }
+    }
     public void utostoAnimation()
     {
+        if (isUtoutoPlaying)
+        {
+            m_Animator.SetBool("utouto", false);
+            isUtoutoPlaying = false;
+        }
+    }
+
+    // すべて停止（必要なら）
+    public void StopAnimation()
+    {
+        m_Animator.SetBool("isplaying", false);
         m_Animator.SetBool("utouto", false);
-        isAnimationTriggered = false;
+        isMainAnimationStarted = false;
+        isUtoutoPlaying = false;
     }
 }
