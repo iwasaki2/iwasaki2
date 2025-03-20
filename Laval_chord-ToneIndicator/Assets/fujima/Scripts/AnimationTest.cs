@@ -17,7 +17,6 @@ public class AnimationTest : NetworkBehaviour
         if (!isAnimationTriggered) // すでに実行されていなければ開始
         {
             m_Animator.SetBool("isplaying", true);
-            isAnimationTriggered = true; // フラグを立てて二重実行を防ぐ
         }
     }
 

@@ -2348,6 +2348,10 @@ PrefabInstance:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 1975580895}
+    - target: {fileID: 1507260034866774246, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3633210917164752854, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
       propertyPath: m_Name
       value: "kl\u6012\u308B "
@@ -3784,7 +3788,7 @@ MonoBehaviour:
   onlineScene: 
   offlineSceneLoadDelay: 0
   transport: {fileID: 1981187300}
-  networkAddress: 192.168.68.55
+  networkAddress: 192.168.68.1
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
