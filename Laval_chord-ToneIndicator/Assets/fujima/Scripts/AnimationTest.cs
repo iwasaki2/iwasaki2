@@ -29,11 +29,13 @@ public class AnimationTest : NetworkBehaviour
     public void utostaAnimation()
     {
         m_Animator.SetBool("utouto", true);
+        isAnimationTriggered = true;
     }
 
     // utouto状態をOFFにするメソッド
     public void utostoAnimation()
     {
         m_Animator.SetBool("utouto", false);
+        isAnimationTriggered = false;
     }
 }
