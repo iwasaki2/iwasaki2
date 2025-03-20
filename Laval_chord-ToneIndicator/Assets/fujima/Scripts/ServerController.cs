@@ -46,7 +46,13 @@ public class ServerController : NetworkBehaviour
         //ture????????????
         if (isHarmonic)
         {
-            if (animationCoroutine == null) // 初回だけ通る
+            AnimationTest animTest = FindObjectOfType<AnimationTest>();
+            if (animTest != null)
+            {
+                animTest.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
+            }
+
+            if (animationCoroutine == null)
             {
                 animationCoroutine = StartCoroutine(TriggerAnimationAfterDelay());
             }
@@ -57,7 +63,12 @@ public class ServerController : NetworkBehaviour
             {
                 StopCoroutine(animationCoroutine);
                 animationCoroutine = null;
-                at.SetUtoutoFalse();  // 即座にうとうと解除
+            }
+
+            AnimationTest animTest = FindObjectOfType<AnimationTest>();
+            if (animTest != null)
+            {
+                animTest.utostoAnimation();  // isHarmonicがfalseなら停止
             }
         }
 
@@ -100,25 +111,21 @@ public class ServerController : NetworkBehaviour
         }
 
     }
-
     private IEnumerator TriggerAnimationAfterDelay()
     {
-        Debug.Log("ハーモニク検知、コルーチン開始");
-
-        // ここでutoutoアニメーション開始
-        at.SetUtoutoTrue();
-
-        // VoiceLengthの間、うとうと状態
+        Debug.Log("?????????????");
         yield return new WaitForSeconds(VoiceLength);
+        Debug.Log("??????????");
 
-        Debug.Log("コルーチン終了、アニメーション停止");
-
-        // アニメーション停止（utouto解除）
-        at.StartAnimation();
-
-        // コルーチン完了
-        animationCoroutine = null;
+         at = FindObjectOfType<AnimationTest>();
+        if (at != null)
+        {
+            at.StartAnimation(); 
+        }
+        animationCoroutine = null; // ?????????????
     }
+
+
 
     public void NewClient(PlayerManager pm)
     {
