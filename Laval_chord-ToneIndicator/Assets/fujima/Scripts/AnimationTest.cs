@@ -21,29 +21,19 @@ public class AnimationTest : NetworkBehaviour
         }
     }
 
-    public void utostaAnimation() 
-    {
-        if (!isAnimationTriggered) 
-        {
-            m_Animator.SetBool("isplaying", true);
-            isAnimationTriggered = true; 
-        }
-    }
-    public void utostoAnimation() 
-    {
-        if (!isAnimationTriggered) 
-        {
-            m_Animator.SetBool("isplaying", true);
-            isAnimationTriggered = true; 
-        }
-    }
-
-
     public void StopAnimation() // アニメーションを停止するメソッド
     {
         m_Animator.SetBool("isplaying", false);
         isAnimationTriggered = false;
     }
+    public void SetUtoutoTrue()
+    {
+        m_Animator.SetBool("utouto", true);
+    }
 
-
+    // utouto状態をOFFにするメソッド
+    public void SetUtoutoFalse()
+    {
+        m_Animator.SetBool("utouto", false);
+    }
 }

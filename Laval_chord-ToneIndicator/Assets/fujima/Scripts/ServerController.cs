@@ -7,7 +7,7 @@ public class ServerController : NetworkBehaviour
 {
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
-    public float VoiceLength = 4.0f;
+    public float VoiceLength = 1.0f;
     private Coroutine animationCoroutine;
 
     public AnimationTest at;
@@ -46,13 +46,7 @@ public class ServerController : NetworkBehaviour
         //ture????????????
         if (isHarmonic)
         {
-            AnimationTest animTest = FindObjectOfType<AnimationTest>();
-            if (animTest != null)
-            {
-                animTest.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
-            }
-
-            if (animationCoroutine == null)
+            if (animationCoroutine == null) // 初回だけ通る
             {
                 animationCoroutine = StartCoroutine(TriggerAnimationAfterDelay());
             }
@@ -63,15 +57,9 @@ public class ServerController : NetworkBehaviour
             {
                 StopCoroutine(animationCoroutine);
                 animationCoroutine = null;
-            }
-
-            AnimationTest animTest = FindObjectOfType<AnimationTest>();
-            if (animTest != null)
-            {
-                animTest.utostoAnimation();  // isHarmonicがfalseなら停止
+                at.SetUtoutoFalse();  // 即座にうとうと解除
             }
         }
-
 
         harmonicLevel /= playerCount;
         harmonicLevel /= MaxHarmonicAdditionalPowerLevel;
@@ -115,16 +103,21 @@ public class ServerController : NetworkBehaviour
 
     private IEnumerator TriggerAnimationAfterDelay()
     {
-        Debug.Log("?????????????");
-        yield return new WaitForSeconds(VoiceLength);
-        Debug.Log("??????????");
+        Debug.Log("ハーモニク検知、コルーチン開始");
 
-        AnimationTest animTest = FindObjectOfType<AnimationTest>();
-        if (animTest != null)
-        {
-            animTest.StartAnimation(); // ?????????????
-        }
-        animationCoroutine = null; // ?????????????
+        // ここでutoutoアニメーション開始
+        at.SetUtoutoTrue();
+
+        // VoiceLengthの間、うとうと状態
+        yield return new WaitForSeconds(VoiceLength);
+
+        Debug.Log("コルーチン終了、アニメーション停止");
+
+        // アニメーション停止（utouto解除）
+        at.StartAnimation();
+
+        // コルーチン完了
+        animationCoroutine = null;
     }
 
     public void NewClient(PlayerManager pm)
@@ -143,6 +136,8 @@ public class ServerController : NetworkBehaviour
 
         clientCount++;
     }
+    
+
 
     public void RestartGame()
     {
