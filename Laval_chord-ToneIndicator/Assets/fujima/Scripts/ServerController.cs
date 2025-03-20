@@ -46,10 +46,10 @@ public class ServerController : NetworkBehaviour
         //ture????????????
         if (isHarmonic)
         {
-            AnimationTest animTest = FindObjectOfType<AnimationTest>();
-            if (animTest != null)
+             at = FindObjectOfType<AnimationTest>();
+            if (at != null)
             {
-                animTest.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
+                at.utostaAnimation();  // 毎フレーム、harmonicならアニメーション開始命令
             }
 
             if (animationCoroutine == null)
