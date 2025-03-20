@@ -2400,6 +2400,10 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2875714845
       objectReference: {fileID: 0}
+    - target: {fileID: 6772063525693955988, guid: 8226cb613f51246dc9066317d5270b38, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
