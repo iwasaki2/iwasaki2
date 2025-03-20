@@ -8,25 +8,22 @@ public class ServerController : NetworkBehaviour
     public float CorrectVoicePowerThreshold = 1500.0f;
     public float MaxHarmonicAdditionalPowerLevel = 1000.0f;
     public float VoiceLength = 1.0f;
-    private Coroutine animationCoroutine;
+
+    private Coroutine harmonicCoroutine = null;
+    private bool isMainAnimationStarted = false;
 
     public AnimationTest at;
 
-
     float[] targetFreqs = { 132, 165 };
     float[] harmonicFreq = { 660, 1320 };
-
     uint[] clients = { 0, 0 };
     int clientCount;
 
-    // Start is called before the first frame update
     void Start()
     {
         clientCount = 0;
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!isServer) return;
@@ -43,69 +40,47 @@ public class ServerController : NetworkBehaviour
             isHarmonic = isHarmonic && (pm.correctVoicePower > CorrectVoicePowerThreshold);
             harmonicLevel += pm.correctVoicePower - CorrectVoicePowerThreshold;
         }
-        //ture????????????
-       　if (isHarmonic)
-        {
-            at = FindObjectOfType<AnimationTest>();
-            if (at != null)
-            {
-                at.utostaAnimation();  // ウトウト再生
-            }
 
-            if (animationCoroutine == null)
+        at = FindObjectOfType<AnimationTest>();
+        if (at == null) return;
+
+        if (isHarmonic && !isMainAnimationStarted)
+        {
+            at.utostaAnimation();  // ウトウト再生
+            if (harmonicCoroutine == null)
             {
-                animationCoroutine = StartCoroutine(TriggerAnimationAfterDelay());
+                harmonicCoroutine = StartCoroutine(HarmonicCheckCoroutine());
             }
         }
         else
         {
-            if (animationCoroutine != null)
+            if (harmonicCoroutine != null)
             {
-                StopCoroutine(animationCoroutine);
-                animationCoroutine = null;
+                StopCoroutine(harmonicCoroutine);
+                harmonicCoroutine = null;
             }
-
-            AnimationTest animTest = FindObjectOfType<AnimationTest>();
-            if (animTest != null)
-            {
-                animTest.utostoAnimation();  // ウトウト停止
-            }
+            at.utostoAnimation();  // ウトウト停止
         }
 
-        // harmonicLevel計算後
-        if (harmonicLevel >= 1.0f)  // 基準値超えたら
-        {
-            at = FindObjectOfType<AnimationTest>();
-            if (at != null)
-            {
-                at.StartAnimation();  // 強制本編開始
-            }
-
-            if (animationCoroutine != null)
-            {
-                StopCoroutine(animationCoroutine);
-                animationCoroutine = null;
-            }
-        }
-
+        // harmonicLevel計算処理
         harmonicLevel /= playerCount;
         harmonicLevel /= MaxHarmonicAdditionalPowerLevel;
-        if( harmonicLevel > 1.0f ) harmonicLevel = 1.0f; else if(harmonicLevel < 0) harmonicLevel = 0;
-        if(!isHarmonic) harmonicLevel =0;
+        harmonicLevel = Mathf.Clamp01(harmonicLevel);
+        if (!isHarmonic) harmonicLevel = 0;
 
-        foreach(var player in players)
+        foreach (var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
             pm.harmonicI = harmonicLevel;
         }
 
-        if(playerCount == 1)
+        if (playerCount == 1)
         {
             Debug.Log("here");
             players[0].GetComponent<PlayerManager>().anotherVoiceI = 1.0f;
         }
 
-        bool isHighHarmonic = false;// false???????????
+        bool isHighHarmonic = false;
         foreach (var player in players)
         {
             PlayerManager pm = player.GetComponent<PlayerManager>();
@@ -117,31 +92,28 @@ public class ServerController : NetworkBehaviour
             PlayerManager pm = player.GetComponent<PlayerManager>();
             pm.harmonicF = isHighHarmonic ? harmonicFreq[1] : harmonicFreq[0];
 
-            float tf = (pm.isLower) ? targetFreqs[0] : targetFreqs[1];
+            float tf = pm.isLower ? targetFreqs[0] : targetFreqs[1];
             if (pm.isFemale) tf *= 2;
             pm.targetFreq = tf;
 
-            float af = (!pm.isLower) ? targetFreqs[0] : targetFreqs[1];
+            float af = !pm.isLower ? targetFreqs[0] : targetFreqs[1];
             if (pm.isFemale) af *= 2;
             pm.anotherVoiceF = af;
         }
-
     }
-    private IEnumerator TriggerAnimationAfterDelay()
-    {
-        Debug.Log("?????????????");
-        yield return new WaitForSeconds(VoiceLength);
-        Debug.Log("??????????");
 
-         at = FindObjectOfType<AnimationTest>();
+    private IEnumerator HarmonicCheckCoroutine()
+    {
+        Debug.Log("Harmonic Detected, Waiting...");
+        yield return new WaitForSeconds(VoiceLength);  // VoiceLength秒待機
+        Debug.Log("Voice sustained, starting main animation.");
         if (at != null)
         {
-            at.StartAnimation(); 
+            at.StartAnimation();
+            isMainAnimationStarted = true;
         }
-        animationCoroutine = null; // ?????????????
+        harmonicCoroutine = null;
     }
-
-
 
     public void NewClient(PlayerManager pm)
     {
@@ -156,15 +128,13 @@ public class ServerController : NetworkBehaviour
             return;
         }
         clients[clientCount] = pm.netId;
-
         clientCount++;
     }
-    
-
 
     public void RestartGame()
     {
         Debug.Log("Restart Called");
         at.StopAnimation();
+        isMainAnimationStarted = false;
     }
 }
