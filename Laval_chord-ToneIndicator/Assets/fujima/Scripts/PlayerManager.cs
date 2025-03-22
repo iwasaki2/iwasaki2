@@ -25,12 +25,13 @@ public class PlayerManager : NetworkBehaviour
     public AudioSource asHarmonic;
     private float sampleRate = 22050f;
 
-    private float vf2;
-    private float hf2;
+    private float vf2 = 1000;
+    private float hf2 = 1000;
 
     public float correctVoicePower;
 
     public bool isFemale;
+    public GameObject indicator;
 
     void Start()
     {
@@ -41,21 +42,15 @@ public class PlayerManager : NetworkBehaviour
             GameObject.FindGameObjectWithTag("Server").GetComponent<ServerController>().NewClient(this);
         }
 
-        anotherVoiceF = 1000;
-        harmonicF = 1320;
-
-        asVoice.clip = CreateSineWave(anotherVoiceF, sampleRate);
+        asVoice.clip = CreateSineWave(1000, sampleRate);
         asVoice.loop = true;
         asVoice.volume = 0.0f;
         asVoice.Play();
 
-        asHarmonic.clip = CreateSineWave(harmonicF, sampleRate);
+        asHarmonic.clip = CreateSineWave(1000, sampleRate);
         asHarmonic.loop = true;
         asHarmonic.volume = 0.0f;
         asHarmonic.Play();
-
-        vf2 = anotherVoiceF;
-        hf2 = harmonicF;
 
         correctVoicePower = 0;
         isFemale = false;
@@ -66,7 +61,11 @@ public class PlayerManager : NetworkBehaviour
     private void Update()
     {
 
-        if (isServer) return;
+        if (!isLocalPlayer)
+        {
+            indicator.SetActive(false);
+            return;
+        }
 
         asVoice.volume = anotherVoiceI;
         if ( vf2 != anotherVoiceF )

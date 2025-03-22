@@ -31,7 +31,7 @@ public class AudioManager : NetworkBehaviour
 
     void Start()
     {
-        if(isServer) return;
+        if(!isLocalPlayer) return;
 
         // マイクの設定
         if (Microphone.devices.Length > 0)
@@ -55,7 +55,7 @@ public class AudioManager : NetworkBehaviour
 
     void Update()
     {
-        if(isServer) return;
+        if(!isLocalPlayer) return;
 
         float targetFreq = playerManager.targetFreq;
         toneIndicator.SetTargetFreq(targetFreq);
