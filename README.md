@@ -6,80 +6,89 @@
 </div>
 
 ## 📊 My GitHub Activity
-[![GitHub Streak](https://streak-stats.demolab.com?user=y177649&theme=dark)](https://git.io/streak-stats)
+[![GitHub Streak](https://streak-stats.demolab.com?user=iwasaki2&theme=dark)](https://git.io/streak-stats)
 
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=y177649&layout=compact&theme=tokyonight&text_color=ffffff&count_private=true&langs_count=5&hide=Makefile,Shell&exclude_repo=Web-Application,Learning-progress-management,UnivCodeWork,tech-wiki,HIYOKOGUMI,etc,Bike-Sensor,BikeAngleVisualizer,Docker-Bases,Image-Processing,IVRC2024,Automation,Armonica-Laval-Virtual,Atcoder-reference-answer,hello-world,AutoHotKey,AutoHotkey-Dev,DataScience,Arduino,Scraping,Topsic,AtCoder)
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=iwasaki2&layout=compact&theme=tokyonight&text_color=ffffff&count_private=true&langs_count=6&hide=Makefile,Shell)
 
 ## 💼 職務経験
 
 ### 🌟 インターンシップ & 業務委託
 
-**🎮 プランナー**
-- 役割: ゲーム企画・開発
-- 業務内容: ゲームの企画開発に参加
+**🔧 VR力覚呈示装置 開発（ゼミ研究）**
+- 役割: 設計・実装・展示
+- ArduinoとDCモーター（L298N）を使った力覚呈示装置をC++で自作
+- UnityとのUART通信・割り込み処理・オシロスコープによるノイズ解析まで一貫実装
+- IVRC2024（国内VRコンテスト）出場、**Laval Virtual 2025**（欧州最大VR展示会）に個人渡航で出展・発表
 
-**🎮 ラクス Tech Lab　**
+**🤖 スタートアップ（MovIT）副代表**
+- 役割: 物流現場へのAI導入・システム開発
+- LangChain・OpenAI API・ベクトルDBを使ったRAGシステムをPythonで設計・実装
+- 物流現場担当者へのヒアリング → 課題定義 → IT要件翻訳 → 現場伴走まで一貫担当
+
+**🎮 ラクス Tech Lab**
 - 役割: ウェブアプリケーション開発
-- 業務内容:Gitを使ったチーム開発を体験しました。チームで協力しながら、Vue.jsとSocket.IOを活用したリアルタイムチャットアプリの企画・開発を担当しました。
+- Vue.jsとSocket.IOを活用したリアルタイムチャットアプリの企画・開発
+- Gitを使ったチーム開発、コードレビューを通じた設計思考の習得
 
-**💻 Webサイトの開発（業務委託）**
-- 役割: Webサイト開発
-- 業務内容: Next.jsを使用したWebサイトのgitを使うチーム開発と、業務委託でのWebサイト開発を担当
+**💻 Webサービス開発（業務委託・フリーランス）**
+- Next.jsを使ったWebサービスの要件定義・設計・実装・デプロイ・納品まで一人で完結
+- 高校と大学をつなぐマッチングサービスの開発（業務委託）
 
-**🔗 マッチングサービスの開発（業務委託）**
-- 役割: マッチングサービスの開発中
-- 業務内容: 業務委託として高校と大学大学をつなぐマッチングサービスの開発に携わっています。
-
-
-**技術スタック:**
-![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
+**技術スタック（組み込み・ハードウェア）:**
 ![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=flat&logo=arduino&logoColor=white)
+![C++](https://img.shields.io/badge/-C%2B%2B-00599C?style=flat&logo=cplusplus&logoColor=white)
+![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
 ![Haptics](https://img.shields.io/badge/-Haptic%20Tech-9C27B0?style=flat&logoColor=white)
 
-### 【Next.jsによるWebサービス開発】
-Webアプリ開発。Vercel,Supabase：バックエンド・データベースログイン機能やデータ管理を実装し、ユーザーに使いやすいUI/UXを目指しています。
-
-**技術スタック:**
+**技術スタック（AI・バックエンド）:**
 ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/-Django-092E20?style=flat&logo=django&logoColor=white)
+![LangChain](https://img.shields.io/badge/-LangChain-1C3C3C?style=flat&logoColor=white)
+![OpenAI](https://img.shields.io/badge/-OpenAI%20API-412991?style=flat&logo=openai&logoColor=white)
+![AWS](https://img.shields.io/badge/-AWS-232F3E?style=flat&logo=amazonaws&logoColor=white)
 
 ## 🛠️ My Tech Stack
+
+### 🔩 Embedded & Hardware
+![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=flat&logo=arduino&logoColor=white)
+![C++](https://img.shields.io/badge/-C%2B%2B-00599C?style=flat&logo=cplusplus&logoColor=white)
+![ESP32](https://img.shields.io/badge/-ESP32-E7352C?style=flat&logoColor=white)
 
 ### 🎮 Game Development & XR
 ![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
 ![C#](https://img.shields.io/badge/-C%23-239120?style=flat&logo=csharp&logoColor=white)
 ![Blender](https://img.shields.io/badge/-Blender-F5792A?style=flat&logo=blender&logoColor=white)
 
+### 🤖 AI & Machine Learning
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/-LangChain-1C3C3C?style=flat&logoColor=white)
+![OpenAI](https://img.shields.io/badge/-OpenAI%20API-412991?style=flat&logo=openai&logoColor=white)
+
 ### 🌐 Web Development
 **Frontend:**
-![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)
 ![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white)
-![Jinja2](https://img.shields.io/badge/-Jinja2-B41717?style=flat&logo=jinja&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=black)
+![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
 **Backend & Frameworks:**
-![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/-Django-092E20?style=flat&logo=django&logoColor=white)
 ![Flask](https://img.shields.io/badge/-Flask-000000?style=flat&logo=flask&logoColor=white)
 
 **Database:**
 ![SQLite](https://img.shields.io/badge/-SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
 
-**Authentication:**
-![Flask-Login](https://img.shields.io/badge/-Flask%20Login-000?style=flat&logo=python&logoColor=white)
+**Cloud & Infra:**
+![AWS](https://img.shields.io/badge/-AWS-232F3E?style=flat&logo=amazonaws&logoColor=white)
+![Vercel](https://img.shields.io/badge/-Vercel-000000?style=flat&logo=vercel&logoColor=white)
 
 ### 🔧 Tools & Development
 ![Git](https://img.shields.io/badge/-Git-F05032?style=flat&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github&logoColor=white)
 ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?style=flat&logo=visualstudiocode&logoColor=white)
-![Mermaid](https://img.shields.io/badge/-Mermaid-64B587?style=flat&logo=mermaid&logoColor=white)
-
-### 🎨 その他のスキル
-![Spatial Design](https://img.shields.io/badge/-Spatial%20Design-FF69B4?style=flat&logoColor=white)
-![Experience Design](https://img.shields.io/badge/-Experience%20Design-9C27B0?style=flat&logoColor=white)
-![Haptic Technology](https://img.shields.io/badge/-Haptic%20Tech-FF6B35?style=flat&logoColor=white)
+![Linux](https://img.shields.io/badge/-Linux-FCC624?style=flat&logo=linux&logoColor=black)
 
 ---
 
@@ -87,21 +96,6 @@ Webアプリ開発。Vercel,Supabase：バックエンド・データベース�
 
 *Creating gentle bridges between emotion and technology* ✨
 
-[(https://www.linkedin.com/in/haruki-iwasaki-57283435b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)]
+[LinkedIn](https://www.linkedin.com/in/haruki-iwasaki-57283435b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)
 
 </div>
-
-<!--
-**iwasaki2/iwasaki2** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
