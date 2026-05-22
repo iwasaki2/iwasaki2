@@ -14,7 +14,7 @@
 
 ### 🌟 インターンシップ & 業務委託
 
-**🔧 VR力覚呈示装置 開発（ゼミ研究）**
+**🔧 VR力覚呈示装置 開発（個人研究）**
 - 役割: 設計・実装・展示
 - ArduinoとDCモーター（L298N）を使った力覚呈示装置をC++で自作
 - UnityとのUART通信・割り込み処理・オシロスコープによるノイズ解析まで一貫実装
@@ -68,7 +68,6 @@
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Next.js](https://img.shields.io/badge/-Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)
 ![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white)
-![React](https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=black)
 ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
